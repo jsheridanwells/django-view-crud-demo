@@ -71,7 +71,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
+                  <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
               </form>
             </div>
@@ -100,7 +100,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
+                  <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
               </form>
             </div>
@@ -170,7 +170,7 @@
         },
         addArticle: function() {
           this.loading = true;
-          this.$http.post('/api/article', this.newArticle)
+          this.$http.post('/api/article/', this.newArticle)
             .then(response => {
               this.loading = false;
               this.getArticles();
@@ -183,7 +183,7 @@
         updateArticle: function() {
           this.loading = true;
           this.$http.put(
-            `/api/article/${ this.currentArticle.article_id} `,
+            `/api/article/${ this.currentArticle.article_id}/`,
             this.currentArticle
             )
             .then(response => {
@@ -198,7 +198,7 @@
         },
         deleteArticle: function(id) {
           this.loading = true;
-          this.$http.delete(`/api/article/${ id }`)
+          this.$http.delete(`/api/article/${ id }/`)
             .then(response => {
               this.loading = false;
               this.getArticles();
