@@ -48,8 +48,8 @@
             </tr>
           </tbody>
         </table>
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <!-- Add Modal -->
+        <div class="modal fade" id="addArticleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -67,6 +67,35 @@
                   <div class="form-group">
                     <label for="article_body">Body</label>
                     <textarea id="article_body" cols="30" rows="10" class="form-control" v-model="newArticle.article_body"></textarea>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- Edit Modal -->
+        <div class="modal fade" id="editArticleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form v-on:submit.prevent="updateArticle()">
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="article_heading">Heading</label>
+                    <input type="text" class="form-control" id="article_heading" v-model="currentArticle.article_heading" required="required">
+                  </div>
+                  <div class="form-group">
+                    <label for="article_body">Body</label>
+                    <textarea id="article_body" cols="30" rows="10" class="form-control" v-model="currentArticle.article_body"></textarea>
                   </div>
                 </div>
                 <div class="modal-footer">
@@ -126,11 +155,12 @@
               console.log('GET ARTICLES ERROR::', e);
             });
         },
-        getArticle: function() {
+        getArticle: function(id) {
           this.loading = true;
-          this.$http.get('/api/article/${ id }')
+          this.$http.get(`/api/article/${ id }`)
             .then(response => {
               this.currentArticle = response.data;
+              $('#editArticleModal').modal('show');
               this.loading = false
             })
             .catch(e => {
